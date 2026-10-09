@@ -187,4 +187,10 @@ export const http = {
       method: "PUT",
       body,
     }),
+
+      del: (path, options) =>
+    request(path, {
+      ...options,
+      method: "DELETE",
+    }),
 };

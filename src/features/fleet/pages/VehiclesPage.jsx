@@ -1,12 +1,15 @@
+import { fleetApi } from "../api";
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Alert from "../../../shared/ui/Alert";
 import VehicleCard from "../components/VehicleCard";
 import { useVehicles } from "../hooks";
+import { useAuth } from "../../auth";
 import { canRent, filterVehicles } from "../rules";
 
 export default function VehiclesPage() {
   const navigate = useNavigate();
+  const { role } = useAuth();
 
   const {
     status,
@@ -37,6 +40,15 @@ export default function VehiclesPage() {
     });
   };
 
+  const handleDelete = async (vehicle) => {
+
+    const handleDelete = async (vehicle) => {
+      await fleetApi.remove(vehicle.id);
+      await reload();
+    };
+
+  };
+
   return (
     <div className="page">
       <div className="page-head">
@@ -51,12 +63,14 @@ export default function VehiclesPage() {
           )}
         </div>
 
-        <Link
-          to="/vehicles/new"
-          className="btn btn-secondary"
-        >
-          + Add vehicle
-        </Link>
+          {role === "ADMIN" && (
+            <Link
+            to="/vehicles/new"
+            className="btn btn-secondary"
+            >
+              + Add vehicle
+              </Link>
+            )}
       </div>
 
       <div className="toolbar">
@@ -114,11 +128,13 @@ export default function VehiclesPage() {
       <div className="grid">
         {visible.map((vehicle) => (
           <VehicleCard
-            key={vehicle.id}
-            vehicle={vehicle}
-            onRent={handleRent}
-          />
-        ))}
+          key={vehicle.id}
+          vehicle={vehicle}
+          onRent={handleRent}
+          canDelete={role === "ADMIN"}
+          onDelete={handleDelete}
+  />
+))}
       </div>
     </div>
   );

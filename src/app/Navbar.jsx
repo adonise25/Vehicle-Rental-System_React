@@ -3,6 +3,7 @@ import { useAuth } from "../features/auth";
 
 export default function Navbar() {
   const { isAuthenticated, email, role, logout } = useAuth();
+  console.log("NAVBAR AUTH:", { isAuthenticated, email, role });
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -25,6 +26,10 @@ export default function Navbar() {
             <>
               <NavLink to="/vehicles" end>
                 Vehicles
+              </NavLink>
+              
+              <NavLink to="/rentals">
+                My Rentals
               </NavLink>
 
               {role === "ADMIN" && (

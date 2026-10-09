@@ -7,12 +7,12 @@ import {
 
 export const httpFleetApi = {
   async list() {
-  const data = await http.get("/api/vehicles", {
-    expect: "json",
-  });
+    const data = await http.get("/api/vehicles", {
+      expect: "json",
+    });
 
-  return toVehicleList(data);
-},
+    return toVehicleList(data);
+  },
 
   async add(draft) {
     const data = await http.post(
@@ -23,5 +23,9 @@ export const httpFleetApi = {
     return data && typeof data === "object"
       ? toVehicle(data)
       : null;
+  },
+
+  async remove(id) {
+    await http.del(`/api/vehicles/${id}`);
   },
 };

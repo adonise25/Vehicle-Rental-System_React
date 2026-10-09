@@ -5,7 +5,10 @@ import {
   VehiclesPage,
 } from "../features/fleet";
 
-import { RentalPage } from "../features/rentals";
+import {
+  MyRentalsPage,
+  RentalPage,
+} from "../features/rentals";
 import Navbar from "./Navbar";
 
 export default function App() {
@@ -41,6 +44,15 @@ export default function App() {
             </ProtectedRoute>
           }
           />
+
+          <Route
+            path="/rentals"
+            element={
+            <ProtectedRoute>
+              <MyRentalsPage />
+              </ProtectedRoute>
+            }
+            />
           <Route path="*" element={<Navigate to="/vehicles" replace />} />
         </Routes>
       </main>

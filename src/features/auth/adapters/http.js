@@ -20,7 +20,8 @@ export const httpAuthApi = {
   },
 
   async login(credentials) {
-    const { email, password } = toCredentialsDto(credentials);
+    const { email, password } =
+      toCredentialsDto(credentials);
 
     const basicAuth = toBasicAuth(email, password);
 
@@ -32,7 +33,10 @@ export const httpAuthApi = {
 
       return basicAuth;
     } catch (err) {
-      if (err instanceof ApiError && [401, 403].includes(err.status)) {
+      if (
+        err instanceof ApiError &&
+        [401, 403].includes(err.status)
+      ) {
         throw new ApiError({
           kind: "unauthorized",
           status: err.status,

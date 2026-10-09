@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { canRent, formatPrice } from "../rules";
 
 function CarIcon() {
@@ -21,11 +20,21 @@ function CarIcon() {
   );
 }
 
-export default function VehicleCard({ vehicle, onRent }) {
-  const { make, model, year, registrationNumber, dailyRate } = vehicle;
+export default function VehicleCard({
+  vehicle,
+  onRent,
+  canDelete,
+  onDelete,
+}) {
+  const {
+    make,
+    model,
+    year,
+    registrationNumber,
+    dailyRate,
+  } = vehicle;
 
   const rentable = canRent(vehicle);
-  const [imageFailed] = useState(false);
 
   return (
     <article
@@ -34,7 +43,7 @@ export default function VehicleCard({ vehicle, onRent }) {
       }`}
     >
       <div className="vehicle-visual">
-        {!imageFailed ? <CarIcon /> : <CarIcon />}
+        <CarIcon />
 
         <span
           className={`badge ${
@@ -62,12 +71,31 @@ export default function VehicleCard({ vehicle, onRent }) {
       </div>
 
       <button
+        type="button"
         className="btn btn-primary btn-block"
         disabled={!rentable}
         onClick={() => onRent(vehicle)}
       >
         {rentable ? "Rent now" : "Unavailable"}
       </button>
+
+      {canDelete && (
+        <button
+          type="button"
+          className="btn btn-secondary btn-block"
+          onClick={() => {
+            if (
+              window.confirm(
+                `Are you sure you want to delete ${make} ${model}?`
+              )
+            ) {
+              onDelete(vehicle);
+            }
+          }}
+        >
+          Delete
+        </button>
+      )}
     </article>
   );
 }

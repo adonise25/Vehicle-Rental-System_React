@@ -34,6 +34,8 @@ export function useVehicles() {
         });
       }
     } catch (err) {
+
+      console.error("Failed to load vehicles:", err);
       if (alive.current) {
         setState((current) => ({
           status: silent ? current.status : "error",
